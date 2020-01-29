@@ -11,7 +11,7 @@ public class SoundThreshold {
     private TargetDataLine line;
 
     public static void main(String[] args) {
-        // demo program using for usign this class
+        // demo program using for using this class
 
         // defines a new soundThreshold object with threshold of 60%, CD sample rate and buffer size of 64
         SoundThreshold soundThreshold = new SoundThreshold(0.6f, 44_100, 64);
@@ -22,9 +22,9 @@ public class SoundThreshold {
         System.out.println(soundThreshold.isAboveThreshold());
 
 
-        // using the isAboveThresholdBlocking is usefull if you want your program to wait in place for the
+        // using the isAboveThresholdBlocking is useful if you want your program to wait in place for the
         // sound threshold to be met
-        System.out.print("Continously ckecks sound level untill its above threshold. Sound level was above threshold? ");
+        System.out.print("Continuously checks sound level until its above threshold. Sound level was above threshold? ");
         System.out.println(soundThreshold.isAboveThresholdBlocking());
     }
 
@@ -37,7 +37,7 @@ public class SoundThreshold {
                             to signed = true. => 2^(8-1) = 128
         `this.buffer` byte array for loading in samples
         `this.samples` float array for normalized samples
-        `this.line` reads mic aduio
+        `this.line` reads mic audio
          */
         this.threshold = threshold;
         this.maxByteValue = 128; // 2^(sampleBitDepth - 1)
@@ -47,20 +47,20 @@ public class SoundThreshold {
         /*
         `sampleRate` measures how often a sample is taken by the program. this should be rather large value
                       CD quality is 44100
-         `sampleSizeInBits` is how good precition a sample have against a soundwave. 8 is quite bad quality
+         `sampleSizeInBits` is how good precision a sample have against a sound wave. 8 is quite bad quality
                             but but it makes one sample fit in a single byte and sound quality is not of a concern
                             https://www.bbc.co.uk/bitesize/guides/zpfdwmn/revision/3
          `channels` no more than one needed (mono sound)
          `singed` a byte is signed if the first bit determines if the byte is positive or negative. this is wanted as
                     that makes the normalized samples value go between -1 and 1
                     https://en.wikipedia.org/wiki/Signed_number_representations#Signed_magnitude_representation_(SMR)
-         `bigEndian` this only matters if sampleSizeInBits is greater than 8 and one sample doesnt fit in a single byte
+         `bigEndian` this only matters if sampleSizeInBits is greater than 8 and one sample does not fit in a single byte
                         https://en.wikipedia.org/wiki/Endianness
          */
         AudioFormat format = new AudioFormat(sampleRate, 8, 1, true, false);
 
         try {
-            // opens up the dataline and makes it availeble for reading
+            // opens up the data line and makes it available for reading
             this.line = AudioSystem.getTargetDataLine(format);
             this.line.open();
             this.line.start();
@@ -80,7 +80,7 @@ public class SoundThreshold {
 
         // loops over the buffer
         for (int i = 0; i < this.buffer.length; i++) {
-            // adds each sample devided by the samples maximum value so all values are between -1 and 1
+            // adds each sample decided by the samples maximum value so all values are between -1 and 1
             this.samples[i] = this.buffer[i] / this.maxByteValue;
         }
 
@@ -97,7 +97,7 @@ public class SoundThreshold {
 
     public boolean isAboveThresholdBlocking() {
         /*
-        this method will always return true but wont do so untill the sound threshold is met
+        this method will always return true but wont do so until the sound threshold is met
          */
         while (true){
             if (this.isAboveThreshold()){
